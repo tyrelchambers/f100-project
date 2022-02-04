@@ -6,7 +6,7 @@ import Input from "./Input";
 const SortOption = ({ label, value, state, dispatch }) => {
   return (
     <div className="flex flex-col w-full sort-option-wrapper py-4">
-      <div className="flex items-center justify-between w-52">
+      <div className="flex items-center justify-between">
         <p className="text-white font-bold ">{label}</p>
         {state.hasOwnProperty(label.toLowerCase()) ? (
           <button

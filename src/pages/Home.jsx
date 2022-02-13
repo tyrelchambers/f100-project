@@ -25,6 +25,9 @@ const Home = () => {
           <SortOption label="Altitude" state={state} dispatch={dispatch} />
           <SortOption label="Power" state={state} dispatch={dispatch} />
           <SortOption label="Purity" state={state} dispatch={dispatch} />
+          <button className="bg-teal-300 p-2 rounded-lg mt-4 hover:bg-teal-400 transition-all">
+            Apply
+          </button>
         </aside>
         <main className="w-full">
           {results.length === 0 && (

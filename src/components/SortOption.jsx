@@ -1,5 +1,3 @@
-import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import Input from "./Input";
 
@@ -22,7 +20,6 @@ const SortOption = ({ label, value, state, dispatch }) => {
               })
             }
           >
-            <FontAwesomeIcon icon={faMinus} className="mr-3" />
             Remove filter
           </button>
         ) : (
@@ -39,7 +36,6 @@ const SortOption = ({ label, value, state, dispatch }) => {
               })
             }
           >
-            <FontAwesomeIcon icon={faPlus} className="mr-3" />
             Add filter
           </button>
         )}

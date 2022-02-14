@@ -1,7 +1,9 @@
 import axios from "axios";
 
-export const getAllFlakes = () => {
+export const getAllFlakes = (data) => {
   return axios
-    .get("https://flakerank.herokuapp.com/api/flakes")
+    .get("https://flakerank.herokuapp.com/api/flakes", {
+      params: data,
+    })
     .then((res) => res.data);
 };

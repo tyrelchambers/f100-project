@@ -66,7 +66,7 @@ const Flake = () => {
                     key === "velocity"
                 )
                 .map((key, id) => (
-                  <span className="details">
+                  <span className="details" key={id}>
                     <p className="font-bold capitalize details__title">{key}</p>
                     <p className="text-gray-200 ">{flake.data[key]}</p>
                   </span>
@@ -87,7 +87,7 @@ const Flake = () => {
                       key === "perc_velocity"
                   )
                   .map((key, id) => (
-                    <span>
+                    <span key={id}>
                       <p className="font-bold capitalize text-gray-100 text-xl mt-2">
                         {key}
                       </p>
@@ -108,7 +108,7 @@ const Flake = () => {
                     key === "owner"
                 )
                 .map((key, id) => (
-                  <span>
+                  <span key={id}>
                     <p className="font-bold capitalize text-gray-100 text-xl">
                       {key}
                     </p>

@@ -1,10 +1,11 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Button } from "../components/Buttons";
 import Flake from "../components/Flake";
-import SortOption from "../components/SortOption";
+import FRPagination from "../components/FRPagination";
+import Loader from "../components/Loader";
 import { useFlakes } from "../hooks/useFlakes";
 import Header from "../layouts/Header";
-import { initialState, reducer } from "../reducers/search";
 
 const StyledWrapper = styled.section`
   .sort-option-wrapper:not(:last-child) {
@@ -20,7 +21,19 @@ const StyledWrapper = styled.section`
 
 const Home = () => {
   const [selected, setSelected] = useState("");
-  const { flakes } = useFlakes();
+  const [page, setPage] = useState(1);
+
+  const { flakes } = useFlakes({
+    mul_altitude: 0.1,
+    mul_spin: 0.1,
+    mul_velocity: 0.15,
+    mul_purity: 0.15,
+    mul_power: 0.25,
+    mul_faction: 0.25,
+    page,
+  });
+
+  console.log(flakes);
 
   return (
     <StyledWrapper className="min-h-screen h-100 bg-slate-900">
@@ -78,18 +91,28 @@ const Home = () => {
           </button>
         </aside>
         <main className="w-full">
-          {!flakes.data && (
+          {!flakes.data && (!flakes.isLoading || !flakes.isFetching) && (
             <div className="bg-slate-800 w-full p-3 rounded-lg">
               <p className="text-teal-300 text-center">No results found...</p>
             </div>
           )}
 
+          {(flakes.isFetching || flakes.isLoading) && <Loader />}
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {flakes.data &&
+              (!flakes.isFetching || !flakes.isLoading) &&
               flakes.data.data.map((flake, id) => (
                 <Flake data={flake} key={id} />
               ))}
           </ul>
+          <FRPagination
+            shape="rounded"
+            count={100000 / 20}
+            onChange={(_, page) => {
+              console.log(page);
+              setPage(page);
+            }}
+          />
         </main>
       </section>
     </StyledWrapper>

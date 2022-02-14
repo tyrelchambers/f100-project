@@ -8,6 +8,7 @@ const second = (props) => (
         : "text-gray-400 bg-slate-700"
     } `}
     onClick={props.onClick}
+    name={props.name}
   >
     {props.children}
   </button>

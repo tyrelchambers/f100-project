@@ -19,21 +19,100 @@ const StyledWrapper = styled.section`
   }
 `;
 
+const modifiedFilter = (priority) => {
+  switch (priority) {
+    case "altitude": {
+      return {
+        mul_altitude: 1,
+        mul_spin: 0,
+        mul_velocity: 0,
+        mul_purity: 0,
+        mul_power: 0,
+        mul_faction: 0,
+      };
+    }
+    case "spin": {
+      return {
+        mul_altitude: 0,
+        mul_spin: 1,
+        mul_velocity: 0,
+        mul_purity: 0,
+        mul_power: 0,
+        mul_faction: 0,
+      };
+    }
+    case "velocity": {
+      return {
+        mul_altitude: 0,
+        mul_spin: 0,
+        mul_velocity: 1,
+        mul_purity: 0,
+        mul_power: 0,
+        mul_faction: 0,
+      };
+    }
+    case "purity": {
+      return {
+        mul_altitude: 0,
+        mul_spin: 0,
+        mul_velocity: 0,
+        mul_purity: 1,
+        mul_power: 0,
+        mul_faction: 0,
+      };
+    }
+    case "power": {
+      return {
+        mul_altitude: 0,
+        mul_spin: 0,
+        mul_velocity: 0,
+        mul_purity: 0,
+        mul_power: 1,
+        mul_faction: 0,
+      };
+    }
+    case "faction": {
+      return {
+        mul_altitude: 0,
+        mul_spin: 0,
+        mul_velocity: 0,
+        mul_purity: 0,
+        mul_power: 0,
+        mul_faction: 1,
+      };
+    }
+    default: {
+      return {
+        mul_altitude: 0.1,
+        mul_spin: 0.1,
+        mul_velocity: 0.15,
+        mul_purity: 0.15,
+        mul_power: 0.25,
+        mul_faction: 0.25,
+      };
+    }
+  }
+};
+
 const Home = () => {
   const [selected, setSelected] = useState("");
   const [page, setPage] = useState(1);
-
   const { flakes } = useFlakes({
-    mul_altitude: 0.1,
-    mul_spin: 0.1,
-    mul_velocity: 0.15,
-    mul_purity: 0.15,
-    mul_power: 0.25,
-    mul_faction: 0.25,
+    ...modifiedFilter(selected),
     page,
   });
 
   console.log(flakes);
+
+  const selectedHandler = (data) => {
+    const faction = data.target.name;
+
+    if (selected === faction) {
+      setSelected("");
+    } else {
+      setSelected(faction);
+    }
+  };
 
   return (
     <StyledWrapper className="min-h-screen h-100 bg-slate-900">
@@ -46,49 +125,51 @@ const Home = () => {
           <Button
             variant="second"
             active={selected === "faction"}
-            onClick={() => setSelected("faction")}
+            name="faction"
+            onClick={(e) => selectedHandler(e)}
           >
             Faction
           </Button>
           <Button
             variant="second"
             active={selected === "power"}
-            onClick={() => setSelected("power")}
+            name="power"
+            onClick={(e) => selectedHandler(e)}
           >
             Power
           </Button>
           <Button
             variant="second"
             active={selected === "purity"}
-            onClick={() => setSelected("purity")}
+            name="purity"
+            onClick={(e) => selectedHandler(e)}
           >
             Purity
           </Button>
           <Button
             variant="second"
             active={selected === "velocity"}
-            onClick={() => setSelected("velocity")}
+            name="velocity"
+            onClick={(e) => selectedHandler(e)}
           >
             Velocity
           </Button>
           <Button
             variant="second"
             active={selected === "altitude"}
-            onClick={() => setSelected("altitude")}
+            name="altitude"
+            onClick={(e) => selectedHandler(e)}
           >
             Altitude
           </Button>
           <Button
             variant="second"
             active={selected === "spin"}
-            onClick={() => setSelected("spin")}
+            name="spin"
+            onClick={(e) => selectedHandler(e)}
           >
             Spin
           </Button>
-
-          <button className="bg-teal-300 p-2 rounded-lg mt-4 hover:bg-teal-400 transition-all">
-            Apply
-          </button>
         </aside>
         <main className="w-full">
           {!flakes.data && (!flakes.isLoading || !flakes.isFetching) && (
@@ -97,10 +178,9 @@ const Home = () => {
             </div>
           )}
 
-          {(flakes.isFetching || flakes.isLoading) && <Loader />}
+          {flakes.isLoading && <Loader />}
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {flakes.data &&
-              (!flakes.isFetching || !flakes.isLoading) &&
               flakes.data.data.map((flake, id) => (
                 <Flake data={flake} key={id} />
               ))}

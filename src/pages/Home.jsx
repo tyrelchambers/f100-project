@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import styled from "styled-components";
 import Flake from "../components/Flake";
 import SortOption from "../components/SortOption";
@@ -21,6 +21,15 @@ const StyledWrapper = styled.section`
 const Home = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { flakes } = useFlakes();
+
+  useEffect(() => {
+    dispatch({
+      type: "update-remaining-filters",
+    });
+
+    return () => {};
+  }, [state.total]);
+
   return (
     <StyledWrapper className="min-h-screen h-100 bg-slate-900">
       <Header />
@@ -28,7 +37,7 @@ const Home = () => {
         <aside className="w-[400px] flex flex-col  bg-slate-800 p-4 rounded-lg">
           <div className="flex justify-between items-center">
             <p className="text-white text-sm">Total points to allocate:</p>
-            {state.total >= 0 && state.total <= 100 ? (
+            {Math.abs(state.total) <= 100 ? (
               <span className="text-teal-800 font-bold bg-teal-50 px-3 rounded-full">
                 {state.total}
               </span>
@@ -39,7 +48,6 @@ const Home = () => {
             )}
           </div>
 
-          <SortOption label="Faction" state={state} dispatch={dispatch} />
           <SortOption label="Velocity" state={state} dispatch={dispatch} />
           <SortOption label="Spin" state={state} dispatch={dispatch} />
           <SortOption label="Altitude" state={state} dispatch={dispatch} />

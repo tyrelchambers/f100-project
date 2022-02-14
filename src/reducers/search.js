@@ -2,11 +2,6 @@ export const initialState = {
   total: 100,
   filters: [
     {
-      label: "faction",
-      touched: false,
-      value: 0,
-    },
-    {
       label: "velocity",
       touched: false,
       value: 0,
@@ -36,6 +31,26 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
+    case "update-remaining-filters": {
+      const clone = { ...state };
+      const filterClone = [...clone.filters];
+
+      const untouchedFilters = filterClone.filter((filter) => !filter.touched);
+      const remaining = Math.floor(clone.total / untouchedFilters.length);
+
+      untouchedFilters.forEach((filter) => {
+        filter.value = remaining;
+        return filter;
+      });
+
+      const newFilters = [...filterClone, ...untouchedFilters];
+      console.log([...new Set(newFilters)]);
+      return {
+        ...clone,
+        filters: [...new Set(newFilters)],
+      };
+    }
+
     case "update-value": {
       const clone = { ...state };
 
@@ -43,27 +58,30 @@ export const reducer = (state, action) => {
       const filter = filterClone.find(
         (filter) => filter.label === action.payload.label
       );
-      filter.value = action.payload.value;
+      filter.value = Number(action.payload.value);
       filter.touched = true;
-
-      // add value from filters together
-      const total = filterClone.reduce((acc, curr) => {
-        return acc - curr.value;
-      }, 100);
-
-      state.total = total;
-
-      // everytime total is updated, distribute the remaining value to the other filters
-      const remaining = Math.floor(total / filterClone.length);
-      filterClone.forEach((filter) => {
-        if (filter.label !== action.payload.label) {
-          filter.value = remaining;
-        }
-      });
 
       return {
         ...clone,
-        filters: filterClone,
+        filters: [...filterClone],
+      };
+    }
+
+    case "update-total": {
+      const clone = { ...state };
+      const filterClone = [...clone.filters];
+      const absoluteTotal = 100;
+
+      const total = filterClone.reduce((acc, filter) => {
+        return acc - filter.value;
+      }, absoluteTotal);
+
+      clone.total = total;
+      console.log(total);
+
+      return {
+        ...clone,
+        filters: [...filterClone],
       };
     }
     default:

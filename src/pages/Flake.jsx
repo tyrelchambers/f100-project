@@ -34,7 +34,6 @@ const Flake = () => {
     params: { id },
   } = useMatch();
   const { flake } = useFlake(id);
-  console.log(flake.data);
 
   useEffect(() => {
     return () => {

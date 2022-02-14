@@ -12,12 +12,20 @@ const StyledWrapper = styled.div`
     );
   position: relative;
   transition: all 0.2s ease;
+
+  .img {
+    transition: all 0.2s ease;
+  }
   &:hover {
     box-shadow: 0px 5px 15px rgba(${(props) => props.colorHex}, 0.25);
     transform: translateY(-5px);
 
     .details {
       opacity: 1;
+    }
+
+    .img {
+      transform: scale(1.1);
     }
   }
 
@@ -51,15 +59,13 @@ const StyledWrapper = styled.div`
 `;
 
 const Flake = ({ data }) => {
-  console.log(data);
-
   return (
     <Link to={`/flake/${data.id}`}>
       <StyledWrapper
         className="rounded-lg overflow-hidden"
         colorHex={color(data.faction)}
       >
-        <img src={data.image} className="img rounded-lg" />
+        <img src={data.image} className="img " />
         <p className="text-center px-4 py-1 name">{data.name}</p>
         <div className="details">
           <div className="grid grid-cols-3 gap-3">

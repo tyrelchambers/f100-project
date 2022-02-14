@@ -118,58 +118,77 @@ const Home = () => {
     <StyledWrapper className="min-h-screen h-100 bg-slate-900">
       <Header />
       <section className="max-w-screen-2xl ml-auto mr-auto mt-20 gap-6 flex">
-        <aside className="w-[400px] flex flex-col  bg-slate-800 p-4 rounded-lg gap-2">
-          <p className="text-white mb-2">
-            Choose a property to give the most weight
-          </p>
-          <Button
-            variant="second"
-            active={selected === "faction"}
-            name="faction"
-            onClick={(e) => selectedHandler(e)}
-          >
-            Faction
-          </Button>
-          <Button
-            variant="second"
-            active={selected === "power"}
-            name="power"
-            onClick={(e) => selectedHandler(e)}
-          >
-            Power
-          </Button>
-          <Button
-            variant="second"
-            active={selected === "purity"}
-            name="purity"
-            onClick={(e) => selectedHandler(e)}
-          >
-            Purity
-          </Button>
-          <Button
-            variant="second"
-            active={selected === "velocity"}
-            name="velocity"
-            onClick={(e) => selectedHandler(e)}
-          >
-            Velocity
-          </Button>
-          <Button
-            variant="second"
-            active={selected === "altitude"}
-            name="altitude"
-            onClick={(e) => selectedHandler(e)}
-          >
-            Altitude
-          </Button>
-          <Button
-            variant="second"
-            active={selected === "spin"}
-            name="spin"
-            onClick={(e) => selectedHandler(e)}
-          >
-            Spin
-          </Button>
+        <aside className="w-[400px] ">
+          <div className="flex flex-col bg-slate-800 p-4 rounded-lg gap-2">
+            <p className="text-white mb-2">
+              Choose a property to give the most weight
+            </p>
+            <Button
+              variant="second"
+              active={selected === "faction"}
+              name="faction"
+              onClick={(e) => selectedHandler(e)}
+            >
+              Faction
+            </Button>
+            <Button
+              variant="second"
+              active={selected === "power"}
+              name="power"
+              onClick={(e) => selectedHandler(e)}
+            >
+              Power
+            </Button>
+            <Button
+              variant="second"
+              active={selected === "purity"}
+              name="purity"
+              onClick={(e) => selectedHandler(e)}
+            >
+              Purity
+            </Button>
+            <Button
+              variant="second"
+              active={selected === "velocity"}
+              name="velocity"
+              onClick={(e) => selectedHandler(e)}
+            >
+              Velocity
+            </Button>
+            <Button
+              variant="second"
+              active={selected === "altitude"}
+              name="altitude"
+              onClick={(e) => selectedHandler(e)}
+            >
+              Altitude
+            </Button>
+            <Button
+              variant="second"
+              active={selected === "spin"}
+              name="spin"
+              onClick={(e) => selectedHandler(e)}
+            >
+              Spin
+            </Button>
+          </div>
+
+          <div className="mt-4">
+            <p className="text-gray-200 text-sm">
+              Developed for, and by, the Fractal community
+            </p>
+            <ul className="flex gap-2 mt-4">
+              <li className="text-gray-400 text-xs">
+                <span className="font-bold">UI:</span> Tyrel#9417
+              </li>
+              <li className="text-gray-400 text-xs">
+                <span className="font-bold">API:</span> intell1g3ntbra1n#5683
+              </li>
+              <li className="text-gray-400 text-xs">
+                <span className="font-bold">Discord Bot:</span> Vyryn#4618
+              </li>
+            </ul>
+          </div>
         </aside>
         <main className="w-full">
           {!flakes.data && (!flakes.isLoading || !flakes.isFetching) && (

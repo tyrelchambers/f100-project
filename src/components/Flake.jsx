@@ -80,7 +80,7 @@ const Flake = ({ data }) => {
                   key === "velocity"
               )
               .map((key, id) => (
-                <span>
+                <span key={id}>
                   <p className="font-bold capitalize">{key}</p>
                   <p className="text-gray-800">{data[key]}</p>
                 </span>

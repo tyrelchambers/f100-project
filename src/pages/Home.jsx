@@ -17,6 +17,9 @@ const StyledWrapper = styled.section`
     position: sticky;
     top: 10px;
   }
+  .weight {
+    margin-top: 5px;
+  }
 `;
 
 const modifiedFilter = (priority) => {
@@ -102,8 +105,6 @@ const Home = () => {
     page,
   });
 
-  console.log(flakes);
-
   const selectedHandler = (data) => {
     const faction = data.target.name;
 
@@ -112,6 +113,45 @@ const Home = () => {
     } else {
       setSelected(faction);
     }
+  };
+
+  function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+    console.log(ev.target.id, "--- drag ---");
+  }
+
+  function drop(ev) {
+    console.log(ev, "-- drop ---");
+    ev.preventDefault();
+    const childWeights = ev.target.childNodes;
+
+    if (ev.target.id !== "weight-list") {
+      for (let index = 0; index < childWeights.length; index++) {
+        const element = childWeights[index];
+        if (element.classList) {
+          if (element.classList.includes("weight")) return;
+        }
+      }
+    }
+
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+  }
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  const resetDrag = (ev) => {
+    ev.preventDefault();
+
+    if (ev.target.parentNode.id === "weight-list") return;
+
+    const parent = ev.target.parentNode;
+
+    document
+      .querySelector("#weight-list")
+      .appendChild(document.getElementById(ev.target.id));
+    parent.removeChild(document.getElementById(ev.target.id));
   };
 
   return (
@@ -123,11 +163,75 @@ const Home = () => {
             <p className="text-white mb-2">
               Choose a property to give the most weight
             </p>
+            <ul
+              className="grid grid-cols-3 gap-2"
+              id="weight-list"
+              onDragOver={(event) => allowDrop(event)}
+              onDrop={(event) => drop(event)}
+            >
+              <li
+                draggable={true}
+                onDragStart={(event) => drag(event)}
+                onClick={(event) => resetDrag(event)}
+                id="0.4"
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+              >
+                0.4
+              </li>
+              <li
+                draggable={true}
+                onDragStart={(event) => drag(event)}
+                onClick={(event) => resetDrag(event)}
+                id="0.2"
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+              >
+                0.2
+              </li>
+              <li
+                draggable={true}
+                onDragStart={(event) => drag(event)}
+                onClick={(event) => resetDrag(event)}
+                id="0.2.1"
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+              >
+                0.2
+              </li>
+              <li
+                draggable={true}
+                onDragStart={(event) => drag(event)}
+                onClick={(event) => resetDrag(event)}
+                id="0.1"
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+              >
+                0.1
+              </li>
+              <li
+                draggable={true}
+                onDragStart={(event) => drag(event)}
+                onClick={(event) => resetDrag(event)}
+                id="0.05"
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+              >
+                0.05
+              </li>
+              <li
+                draggable={true}
+                onDragStart={(event) => drag(event)}
+                onClick={(event) => resetDrag(event)}
+                id="0.05.1"
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+              >
+                0.05
+              </li>
+            </ul>
             <Button
               variant="second"
               active={selected === "faction"}
               name="faction"
               onClick={(e) => selectedHandler(e)}
+              onDrop={(event) => drop(event)}
+              onDragOver={(event) => allowDrop(event)}
+              id="faction-btn"
             >
               Faction
             </Button>
@@ -136,6 +240,9 @@ const Home = () => {
               active={selected === "power"}
               name="power"
               onClick={(e) => selectedHandler(e)}
+              onDrop={(event) => drop(event)}
+              onDragOver={(event) => allowDrop(event)}
+              id="power-btn"
             >
               Power
             </Button>
@@ -144,6 +251,9 @@ const Home = () => {
               active={selected === "purity"}
               name="purity"
               onClick={(e) => selectedHandler(e)}
+              onDrop={(event) => drop(event)}
+              onDragOver={(event) => allowDrop(event)}
+              id="purity-btn"
             >
               Purity
             </Button>
@@ -152,6 +262,9 @@ const Home = () => {
               active={selected === "velocity"}
               name="velocity"
               onClick={(e) => selectedHandler(e)}
+              onDrop={(event) => drop(event)}
+              onDragOver={(event) => allowDrop(event)}
+              id="velocity-btn"
             >
               Velocity
             </Button>
@@ -160,6 +273,9 @@ const Home = () => {
               active={selected === "altitude"}
               name="altitude"
               onClick={(e) => selectedHandler(e)}
+              onDrop={(event) => drop(event)}
+              onDragOver={(event) => allowDrop(event)}
+              id="altitude-btn"
             >
               Altitude
             </Button>
@@ -168,6 +284,9 @@ const Home = () => {
               active={selected === "spin"}
               name="spin"
               onClick={(e) => selectedHandler(e)}
+              onDrop={(event) => drop(event)}
+              onDragOver={(event) => allowDrop(event)}
+              id="spin-btn"
             >
               Spin
             </Button>

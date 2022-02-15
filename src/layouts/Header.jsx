@@ -5,7 +5,7 @@ import Dropdown from "../components/Dropdown";
 import { useSearch } from "../hooks/useSearch";
 
 const Header = () => {
-  const [query, setQuery] = React.useState("golden isril");
+  const [query, setQuery] = React.useState("");
   const { search } = useSearch(query);
 
   return (

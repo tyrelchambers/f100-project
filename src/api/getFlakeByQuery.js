@@ -1,7 +1,9 @@
 import axios from "axios";
 
-export const getRankedFlakes = (data) => {
+export const getFlakeByQuery = (data) => {
   return axios.get("https://flakerank.herokuapp.com/api/flakes", {
-    params: data,
+    params: {
+      s: data,
+    },
   });
 };

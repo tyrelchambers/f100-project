@@ -1,6 +1,7 @@
 import { Pagination } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
+import { useWindowSize } from "../hooks/useWindowSize";
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -51,15 +52,25 @@ const StyledWrapper = styled.div`
     }
   }
   @media screen and (max-width: 320px) {
+    .MuiPaginationItem-root {
+      width: 30px;
+      height: 30px;
+    }
     .MuiPagination-ul {
       flex-wrap: nowrap !important;
     }
   }
 `;
 const FRPagination = ({ count, shape, onChange }) => {
+  const { width } = useWindowSize();
   return (
     <StyledWrapper>
-      <Pagination count={count} shape={shape} onChange={onChange} />
+      <Pagination
+        count={count}
+        shape={shape}
+        onChange={onChange}
+        size={width > 425 ? "large" : "small"}
+      />
     </StyledWrapper>
   );
 };

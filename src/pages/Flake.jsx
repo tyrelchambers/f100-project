@@ -49,12 +49,16 @@ const Flake = () => {
     >
       <Header />
       {flake.data && (
-        <section className="max-w-screen-2xl ml-auto mr-auto mt-10 flex gap-6 pb-10">
-          <img src={flake.data.image} alt="" className="w-96 h-96 rounded-lg" />
+        <section className="max-w-screen-2xl ml-auto mr-auto mt-10 flex flex-col md:flex-row gap-6 pb-10 p-4">
+          <img
+            src={flake.data.image}
+            alt=""
+            className="w-96 h-96 object-cover rounded-lg"
+          />
 
           <div className="flex flex-col w-full">
             <h2>{flake.data.name}</h2>
-            <div className="grid grid-cols-6 gap-6 w-full mt-6">
+            <div className="grid grid-cols-2 lg:grid-cols-6 gap-6 w-full mt-6">
               {Object.keys(flake.data)
                 .filter(
                   (key) =>
@@ -76,7 +80,7 @@ const Flake = () => {
               <h3 className="font-bold capitalize details__title mt-10 text-2xl">
                 Rarity - percentile
               </h3>
-              <div className="grid grid-cols-3 mt-6 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 mt-6 gap-6">
                 {Object.keys(flake.data)
                   .filter(
                     (key) =>
@@ -112,7 +116,9 @@ const Flake = () => {
                     <p className="font-bold capitalize text-gray-100 text-xl">
                       {key}
                     </p>
-                    <p className="text-gray-400 ">{flake.data[key]}</p>
+                    <p className="text-gray-400 break-words">
+                      {flake.data[key]}
+                    </p>
                   </span>
                 ))}
             </div>

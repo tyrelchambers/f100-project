@@ -42,26 +42,24 @@ const Home = () => {
     } else {
       setSelected(faction);
     }
-
-    flakes.refetch({
-      ...modifiedFilter(selected),
-    });
+    setFilters(modifiedFilter(selected));
   };
 
   const searchHandler = () => {
     const weights = calculateWeightsParams();
-
+    setSelected("");
     setFilters(weights);
   };
 
   return (
     <StyledWrapper className="min-h-screen h-100 bg-slate-900">
       <Header />
-      <section className="max-w-screen-2xl ml-auto mr-auto mt-20 gap-6 flex">
+      <section className="max-w-screen-2xl ml-auto mr-auto mt-20 gap-6 flex px-3">
         <aside className="w-[400px] ">
           <div className="flex flex-col bg-slate-800 p-4 rounded-lg gap-2">
-            <p className="text-white mb-2">
-              Drag a wight to a specific property to give it priority
+            <p className="text-white mb-2 text-xs">
+              Drag a weight to a specific property to give it priority. The
+              remaining weights will be distributed among the other properties.
             </p>
             <ul
               className="grid grid-cols-3 gap-2 mb-4"
@@ -139,7 +137,7 @@ const Home = () => {
             <Button
               variant="second"
               className="weight-btn"
-              active={selected === "faction"}
+              active={selected === "mul_faction"}
               name="mul_faction"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
@@ -151,7 +149,7 @@ const Home = () => {
             <Button
               variant="second"
               className="weight-btn"
-              active={selected === "power"}
+              active={selected === "mul_power"}
               name="mul_power"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
@@ -163,7 +161,7 @@ const Home = () => {
             <Button
               variant="second"
               className="weight-btn"
-              active={selected === "purity"}
+              active={selected === "mul_purity"}
               name="mul_purity"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
@@ -175,7 +173,7 @@ const Home = () => {
             <Button
               variant="second"
               className="weight-btn"
-              active={selected === "velocity"}
+              active={selected === "mul_velocity"}
               name="mul_velocity"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
@@ -187,7 +185,7 @@ const Home = () => {
             <Button
               variant="second"
               className="weight-btn"
-              active={selected === "altitude"}
+              active={selected === "mul_altitude"}
               name="mul_altitude"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
@@ -199,7 +197,7 @@ const Home = () => {
             <Button
               variant="second"
               className="weight-btn"
-              active={selected === "spin"}
+              active={selected === "mul_spin"}
               name="mul_spin"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
@@ -238,6 +236,11 @@ const Home = () => {
           )}
 
           {flakes.isLoading && <Loader />}
+          {selected && (
+            <p className="text-white mb-4">
+              Sorting by {selected.substring(4, selected.length)}
+            </p>
+          )}
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {flakes.data &&
               flakes.data.data.map((flake, id) => (

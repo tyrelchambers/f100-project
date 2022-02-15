@@ -1,6 +1,6 @@
-export const modifiedFilter = (priority) => {
-  switch (priority) {
-    case "altitude": {
+export const modifiedFilter = (property) => {
+  switch (property) {
+    case "mul_altitude": {
       return {
         mul_altitude: 1,
         mul_spin: 0,
@@ -10,7 +10,7 @@ export const modifiedFilter = (priority) => {
         mul_faction: 0,
       };
     }
-    case "spin": {
+    case "mul_spin": {
       return {
         mul_altitude: 0,
         mul_spin: 1,
@@ -20,7 +20,7 @@ export const modifiedFilter = (priority) => {
         mul_faction: 0,
       };
     }
-    case "velocity": {
+    case "mul_velocity": {
       return {
         mul_altitude: 0,
         mul_spin: 0,
@@ -30,7 +30,7 @@ export const modifiedFilter = (priority) => {
         mul_faction: 0,
       };
     }
-    case "purity": {
+    case "mul_purity": {
       return {
         mul_altitude: 0,
         mul_spin: 0,
@@ -40,7 +40,7 @@ export const modifiedFilter = (priority) => {
         mul_faction: 0,
       };
     }
-    case "power": {
+    case "mul_power": {
       return {
         mul_altitude: 0,
         mul_spin: 0,
@@ -50,7 +50,7 @@ export const modifiedFilter = (priority) => {
         mul_faction: 0,
       };
     }
-    case "faction": {
+    case "mul_faction": {
       return {
         mul_altitude: 0,
         mul_spin: 0,

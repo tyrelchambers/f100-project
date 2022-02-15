@@ -5,6 +5,9 @@ export function drag(ev) {
 export function drop(ev) {
   ev.preventDefault();
   const childWeights = ev.target.childNodes;
+  const type = ev.target.getAttribute("data-type");
+
+  if (type === "weight") return;
 
   if (ev.target.id !== "weight-list") {
     for (let index = 0; index < childWeights.length; index++) {

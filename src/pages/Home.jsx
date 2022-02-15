@@ -75,6 +75,7 @@ const Home = () => {
                 onClick={(event) => resetDrag(event)}
                 id="0.4"
                 data-value={0.4}
+                data-type="weight"
                 className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.4
@@ -85,6 +86,7 @@ const Home = () => {
                 onClick={(event) => resetDrag(event)}
                 id="0.2"
                 data-value={0.2}
+                data-type="weight"
                 className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.2
@@ -95,6 +97,7 @@ const Home = () => {
                 onClick={(event) => resetDrag(event)}
                 id="0.2.1"
                 data-value={0.2}
+                data-type="weight"
                 className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.2
@@ -105,6 +108,7 @@ const Home = () => {
                 onClick={(event) => resetDrag(event)}
                 id="0.1"
                 data-value={0.1}
+                data-type="weight"
                 className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.1
@@ -115,6 +119,7 @@ const Home = () => {
                 onClick={(event) => resetDrag(event)}
                 id="0.05"
                 data-value={0.05}
+                data-type="weight"
                 className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.05
@@ -125,6 +130,7 @@ const Home = () => {
                 onClick={(event) => resetDrag(event)}
                 id="0.05.1"
                 data-value={0.05}
+                data-type="weight"
                 className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.05

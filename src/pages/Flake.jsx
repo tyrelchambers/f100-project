@@ -26,6 +26,12 @@ const StyledWrapper = styled.main`
   .coloured-title {
     color: rgb(${(props) => props.colorHex});
   }
+
+  @media screen and (min-width: 872px) {
+    > section {
+      flex-direction: row;
+    }
+  }
 `;
 
 const Flake = () => {
@@ -49,7 +55,7 @@ const Flake = () => {
     >
       <Header />
       {flake.data && (
-        <section className="max-w-screen-2xl ml-auto mr-auto mt-10 flex flex-col md:flex-row gap-6 pb-10 p-4">
+        <section className="max-w-screen-2xl ml-auto mr-auto mt-10 flex flex-col  gap-6 pb-10 p-4">
           <img
             src={flake.data.image}
             alt=""

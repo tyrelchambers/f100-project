@@ -20,7 +20,9 @@ const StyledDropdown = styled.section`
   }
 
   ul a {
+    width: 100%;
     transition: all 0.2s ease-in-out;
+    overflow: hidden;
     &:not(:last-child) {
       border-bottom: 1px solid rgb(230, 230, 230);
     }
@@ -34,23 +36,25 @@ const StyledDropdown = styled.section`
   }
 `;
 
-const Dropdown = ({ data }) => {
+const Dropdown = ({ data, clearSearchOnClick }) => {
   if (!data?.length) return null;
 
   return (
     <StyledDropdown className="bg-gray-100 rounded-lg shadow-lg">
       <ul className="flex flex-col ">
         {data.map((item) => (
-          <Link to={`/flake/${item.id}`} className="py-4 px-2">
+          <Link
+            to={`/flake/${item.id}`}
+            className="py-4 px-2 w-full"
+            onClick={clearSearchOnClick}
+          >
             <li key={item.id} className="flex gap-4">
               <img src={item.image} alt="" className="image" />
               <div className="flex flex-col">
                 <p className="text-lg font-bold name text-gray-800">
                   {item.name}
                 </p>
-                <p className="text-sm break-words text-gray-600">
-                  {item.owner}
-                </p>
+                <p className="text-sm text-gray-600">{item.owner}</p>
               </div>
             </li>
           </Link>

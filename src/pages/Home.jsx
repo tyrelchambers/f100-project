@@ -6,6 +6,9 @@ import FRPagination from "../components/FRPagination";
 import Loader from "../components/Loader";
 import { useFlakes } from "../hooks/useFlakes";
 import Header from "../layouts/Header";
+import { calculateWeightsParams } from "../libs/calculateWeightParams";
+import { allowDrop, drag, drop, resetDrag } from "../libs/dragDrop";
+import { modifiedFilter } from "../libs/filterWeights";
 
 const StyledWrapper = styled.section`
   .sort-option-wrapper:not(:last-child) {
@@ -22,86 +25,12 @@ const StyledWrapper = styled.section`
   }
 `;
 
-const modifiedFilter = (priority) => {
-  switch (priority) {
-    case "altitude": {
-      return {
-        mul_altitude: 1,
-        mul_spin: 0,
-        mul_velocity: 0,
-        mul_purity: 0,
-        mul_power: 0,
-        mul_faction: 0,
-      };
-    }
-    case "spin": {
-      return {
-        mul_altitude: 0,
-        mul_spin: 1,
-        mul_velocity: 0,
-        mul_purity: 0,
-        mul_power: 0,
-        mul_faction: 0,
-      };
-    }
-    case "velocity": {
-      return {
-        mul_altitude: 0,
-        mul_spin: 0,
-        mul_velocity: 1,
-        mul_purity: 0,
-        mul_power: 0,
-        mul_faction: 0,
-      };
-    }
-    case "purity": {
-      return {
-        mul_altitude: 0,
-        mul_spin: 0,
-        mul_velocity: 0,
-        mul_purity: 1,
-        mul_power: 0,
-        mul_faction: 0,
-      };
-    }
-    case "power": {
-      return {
-        mul_altitude: 0,
-        mul_spin: 0,
-        mul_velocity: 0,
-        mul_purity: 0,
-        mul_power: 1,
-        mul_faction: 0,
-      };
-    }
-    case "faction": {
-      return {
-        mul_altitude: 0,
-        mul_spin: 0,
-        mul_velocity: 0,
-        mul_purity: 0,
-        mul_power: 0,
-        mul_faction: 1,
-      };
-    }
-    default: {
-      return {
-        mul_altitude: 0.1,
-        mul_spin: 0.1,
-        mul_velocity: 0.15,
-        mul_purity: 0.15,
-        mul_power: 0.25,
-        mul_faction: 0.25,
-      };
-    }
-  }
-};
-
 const Home = () => {
   const [selected, setSelected] = useState("");
   const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState(modifiedFilter(selected));
   const { flakes } = useFlakes({
-    ...modifiedFilter(selected),
+    ...filters,
     page,
   });
 
@@ -113,58 +42,16 @@ const Home = () => {
     } else {
       setSelected(faction);
     }
-  };
 
-  function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-  }
-
-  function drop(ev) {
-    ev.preventDefault();
-    const childWeights = ev.target.childNodes;
-
-    if (ev.target.id !== "weight-list") {
-      for (let index = 0; index < childWeights.length; index++) {
-        const element = childWeights[index];
-        if (element.classList) {
-          if (element.classList.includes("weight")) return;
-        }
-      }
-    }
-
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
-  }
-  function allowDrop(ev) {
-    ev.preventDefault();
-  }
-
-  const resetDrag = (ev) => {
-    ev.preventDefault();
-
-    if (ev.target.parentNode.id === "weight-list") return;
-
-    const parent = ev.target.parentNode;
-
-    document
-      .querySelector("#weight-list")
-      .appendChild(document.getElementById(ev.target.id));
-    parent.removeChild(document.getElementById(ev.target.id));
+    flakes.refetch({
+      ...modifiedFilter(selected),
+    });
   };
 
   const searchHandler = () => {
-    const buttons = document.querySelectorAll(".weight-btn");
-    const weights = {};
+    const weights = calculateWeightsParams();
 
-    for (let index = 0; index < buttons.length; index++) {
-      const element = buttons[index];
-      let name = element.name;
-      let value = element.querySelector(".weight")?.getAttribute("data-value");
-
-      if (name && value) {
-        weights[name] = value;
-      }
-    }
+    setFilters(weights);
   };
 
   return (
@@ -247,7 +134,7 @@ const Home = () => {
               variant="second"
               className="weight-btn"
               active={selected === "faction"}
-              name="faction"
+              name="mul_faction"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
               onDragOver={(event) => allowDrop(event)}
@@ -259,7 +146,7 @@ const Home = () => {
               variant="second"
               className="weight-btn"
               active={selected === "power"}
-              name="power"
+              name="mul_power"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
               onDragOver={(event) => allowDrop(event)}
@@ -271,7 +158,7 @@ const Home = () => {
               variant="second"
               className="weight-btn"
               active={selected === "purity"}
-              name="purity"
+              name="mul_purity"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
               onDragOver={(event) => allowDrop(event)}
@@ -283,7 +170,7 @@ const Home = () => {
               variant="second"
               className="weight-btn"
               active={selected === "velocity"}
-              name="velocity"
+              name="mul_velocity"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
               onDragOver={(event) => allowDrop(event)}
@@ -295,7 +182,7 @@ const Home = () => {
               variant="second"
               className="weight-btn"
               active={selected === "altitude"}
-              name="altitude"
+              name="mul_altitude"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
               onDragOver={(event) => allowDrop(event)}
@@ -307,7 +194,7 @@ const Home = () => {
               variant="second"
               className="weight-btn"
               active={selected === "spin"}
-              name="spin"
+              name="mul_spin"
               onClick={(e) => selectedHandler(e)}
               onDrop={(event) => drop(event)}
               onDragOver={(event) => allowDrop(event)}

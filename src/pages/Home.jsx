@@ -117,11 +117,9 @@ const Home = () => {
 
   function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
-    console.log(ev.target.id, "--- drag ---");
   }
 
   function drop(ev) {
-    console.log(ev, "-- drop ---");
     ev.preventDefault();
     const childWeights = ev.target.childNodes;
 
@@ -154,6 +152,21 @@ const Home = () => {
     parent.removeChild(document.getElementById(ev.target.id));
   };
 
+  const searchHandler = () => {
+    const buttons = document.querySelectorAll(".weight-btn");
+    const weights = {};
+
+    for (let index = 0; index < buttons.length; index++) {
+      const element = buttons[index];
+      let name = element.name;
+      let value = element.querySelector(".weight")?.getAttribute("data-value");
+
+      if (name && value) {
+        weights[name] = value;
+      }
+    }
+  };
+
   return (
     <StyledWrapper className="min-h-screen h-100 bg-slate-900">
       <Header />
@@ -161,10 +174,10 @@ const Home = () => {
         <aside className="w-[400px] ">
           <div className="flex flex-col bg-slate-800 p-4 rounded-lg gap-2">
             <p className="text-white mb-2">
-              Choose a property to give the most weight
+              Drag a wight to a specific property to give it priority
             </p>
             <ul
-              className="grid grid-cols-3 gap-2"
+              className="grid grid-cols-3 gap-2 mb-4"
               id="weight-list"
               onDragOver={(event) => allowDrop(event)}
               onDrop={(event) => drop(event)}
@@ -174,7 +187,8 @@ const Home = () => {
                 onDragStart={(event) => drag(event)}
                 onClick={(event) => resetDrag(event)}
                 id="0.4"
-                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+                data-value={0.4}
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.4
               </li>
@@ -183,7 +197,8 @@ const Home = () => {
                 onDragStart={(event) => drag(event)}
                 onClick={(event) => resetDrag(event)}
                 id="0.2"
-                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+                data-value={0.2}
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.2
               </li>
@@ -192,7 +207,8 @@ const Home = () => {
                 onDragStart={(event) => drag(event)}
                 onClick={(event) => resetDrag(event)}
                 id="0.2.1"
-                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+                data-value={0.2}
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.2
               </li>
@@ -201,7 +217,8 @@ const Home = () => {
                 onDragStart={(event) => drag(event)}
                 onClick={(event) => resetDrag(event)}
                 id="0.1"
-                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+                data-value={0.1}
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.1
               </li>
@@ -210,7 +227,8 @@ const Home = () => {
                 onDragStart={(event) => drag(event)}
                 onClick={(event) => resetDrag(event)}
                 id="0.05"
-                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+                data-value={0.05}
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.05
               </li>
@@ -219,13 +237,15 @@ const Home = () => {
                 onDragStart={(event) => drag(event)}
                 onClick={(event) => resetDrag(event)}
                 id="0.05.1"
-                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-yellow-300"
+                data-value={0.05}
+                className="weight bg-gray-900 p-1 flex-1 rounded-md flex justify-center text-white border-2 border-gray-300"
               >
                 0.05
               </li>
             </ul>
             <Button
               variant="second"
+              className="weight-btn"
               active={selected === "faction"}
               name="faction"
               onClick={(e) => selectedHandler(e)}
@@ -237,6 +257,7 @@ const Home = () => {
             </Button>
             <Button
               variant="second"
+              className="weight-btn"
               active={selected === "power"}
               name="power"
               onClick={(e) => selectedHandler(e)}
@@ -248,6 +269,7 @@ const Home = () => {
             </Button>
             <Button
               variant="second"
+              className="weight-btn"
               active={selected === "purity"}
               name="purity"
               onClick={(e) => selectedHandler(e)}
@@ -259,6 +281,7 @@ const Home = () => {
             </Button>
             <Button
               variant="second"
+              className="weight-btn"
               active={selected === "velocity"}
               name="velocity"
               onClick={(e) => selectedHandler(e)}
@@ -270,6 +293,7 @@ const Home = () => {
             </Button>
             <Button
               variant="second"
+              className="weight-btn"
               active={selected === "altitude"}
               name="altitude"
               onClick={(e) => selectedHandler(e)}
@@ -281,6 +305,7 @@ const Home = () => {
             </Button>
             <Button
               variant="second"
+              className="weight-btn"
               active={selected === "spin"}
               name="spin"
               onClick={(e) => selectedHandler(e)}
@@ -290,6 +315,9 @@ const Home = () => {
             >
               Spin
             </Button>
+            <div className="mt-4">
+              <Button onClick={searchHandler}>Apply Weights</Button>
+            </div>
           </div>
 
           <div className="mt-4">
